@@ -34,9 +34,18 @@ export default {
     };
   },
   methods: {
-    onChange() {
+    async onChange() {
       this.files = [...this.$refs.file.files];
       console.log(this.files)
+      let formData = new FormData();
+      formData.append('file', this.files[0]);
+      const response = await this.$axios.$post('/api/upload', formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
+        }
+      )
+      alert(JSON.stringify(response))
     },
     dragover(e) {
       e.preventDefault();
